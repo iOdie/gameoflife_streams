@@ -2,6 +2,11 @@ package org.example;
 
 import org.example.exceptions.InvalidGameTypeException;
 
+import java.util.Arrays;
+import java.util.function.Predicate;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import static org.example.Rules.*;
 import static org.example.Rules.checkIfCellHasTwoOrThreeNeighbors;
 
@@ -60,6 +65,20 @@ public class Spiel {
             }
             board.setBoard(nextIterationGameBoard);
         }
+
+        Predicate<Integer> cellIsUnderpopulated = (neighborCount) -> (neighborCount < 2);
+        Predicate<Integer> cellHasTwoOrThreeNeighbors = (neighborCount) -> (neighborCount == 2 || neighborCount == 3);
+        Predicate<Integer> cellIsOverpopulated = (neighborCount) -> (neighborCount > 3);
+        //Predicate<Integer> cellIsReproducing = (neighborCount) -> (neighborCount == 3);     Already in cellHasTwoOrThreeNeighbors contained
+
+        Predicate<Integer> cellStateEqualsAlive = (cellState) -> (cellState == 1);
+
+        Stream<?> nextIteration = Arrays.stream(currentIteration).map(x -> Arrays.stream(x));
+
+        Stream<?> nextIterationNeu = Arrays.stream(currentIteration).map(x -> Arrays.stream(x));
+
+        IntStream.range(0, currentIteration.length)
+                .map(x -> IntStream.range(0, x))
     }
 
     public boolean checkIfCellWillBeAlive (int neighborCount, int cellState) {
